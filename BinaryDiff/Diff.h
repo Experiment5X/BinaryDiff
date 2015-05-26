@@ -15,6 +15,8 @@ public:
 	T firstValue() { return m_firstValue; }
 	T secondValue() { return m_secondValue;  }
 
+	T absoluteDifference() { return abs((int64_t)((int64_t)m_firstValue - (int64_t)m_secondValue)); }
+
 private:
 	uint64_t m_address;
 	T m_firstValue;
