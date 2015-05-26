@@ -32,3 +32,17 @@ std::vector<Diff<uint64_t>> BinaryDiffer::getUint64Diffs()
 		m_uint64Diffs = getDiffs<uint64_t>();
 	return m_uint64Diffs;
 }
+
+uint64_t BinaryDiffer::FileLength(std::fstream &file)
+{
+	uint64_t originalPosition = file.tellg();
+
+	// get the file length
+	file.seekg(0, std::ios_base::end);
+	uint64_t fileLength = file.tellg();
+
+	// reset the position to where it was before
+	file.seekg(originalPosition, std::ios_base::beg);
+
+	return fileLength;
+}

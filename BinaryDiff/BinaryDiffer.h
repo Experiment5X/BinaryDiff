@@ -37,8 +37,12 @@ private:
 		std::fstream fileA(m_fileAPath, std::ios_base::in | std::ios_base::binary);
 		std::fstream fileB(m_fileBPath, std::ios_base::in | std::ios_base::binary);
 
-		// loop until the end of one of the files is reached
-		while (!fileA.eof() && !fileB.eof())
+		// get the file lengths
+		uint64_t fileALength = FileLength(fileA);
+		uint64_t fileBLength = FileLength(fileB);
+
+		// loop until there isn't a full integer left to read at the end of the file
+		while (fileALength - fileA.tellg() > diffUnitLength)
 		{
 			// read the next ints in from the files
 			T first, second;
@@ -56,7 +60,12 @@ private:
 				diffs.push_back(diff);
 		}
 
+		fileA.close();
+		fileB.close();
+
 		return diffs;
 	}
+
+	static uint64_t FileLength(std::fstream &file);
 };
 
