@@ -1,7 +1,7 @@
 #include "BinaryDiffer.h"
 
-BinaryDiffer::BinaryDiffer(std::string fileAPath, std::string fileBPath) :
-	m_fileAPath(fileAPath), m_fileBPath(fileBPath)
+BinaryDiffer::BinaryDiffer(std::string fileAPath, std::string fileBPath, ByteOrder byteOrder) :
+m_fileAPath(fileAPath), m_fileBPath(fileBPath), m_byteOrder(byteOrder)
 {
 }
 
@@ -45,4 +45,25 @@ uint64_t BinaryDiffer::FileLength(std::fstream &file)
 	file.seekg(originalPosition, std::ios_base::beg);
 
 	return fileLength;
+}
+
+void BinaryDiffer::SwapIntegerByteOrder(uint8_t *integer, size_t length)
+{
+	// reverse the byte array
+	for (int i = 0; i < length / 2; i++)
+	{
+		uint8_t temp = integer[i];
+		integer[i] = integer[length - i - 1];
+		integer[length - i - 1] = temp;
+	}
+}
+
+ByteOrder BinaryDiffer::byteOrder()
+{
+	return m_byteOrder;
+}
+
+void BinaryDiffer::setByteOrder(ByteOrder byteOrder)
+{
+	m_byteOrder = byteOrder;
 }

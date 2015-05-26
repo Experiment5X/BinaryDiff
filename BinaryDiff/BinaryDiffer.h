@@ -7,19 +7,29 @@
 
 #include "Diff.h"
 
+enum class ByteOrder
+{
+	BigEndian,
+	LittleEndian
+};
+
 class BinaryDiffer
 {
 public:
-	BinaryDiffer(std::string fileAPath, std::string fileBPath);
+	BinaryDiffer(std::string fileAPath, std::string fileBPath, ByteOrder byteOrder = ByteOrder::BigEndian);
 
 	std::vector<Diff<uint8_t>> getByteDiffs();
 	std::vector<Diff<uint16_t>> getUint16Diffs();
 	std::vector<Diff<uint32_t>> getUint32Diffs();
 	std::vector<Diff<uint64_t>> getUint64Diffs();
 
+	ByteOrder byteOrder();
+	void setByteOrder(ByteOrder byteOrder);
+
 private:
 	std::string m_fileAPath;
 	std::string m_fileBPath;
+	ByteOrder m_byteOrder;
 
 	std::vector<Diff<uint8_t>> m_byteDiffs;
 	std::vector<Diff<uint16_t>> m_uint16Diffs;
@@ -52,6 +62,13 @@ private:
 			fileA.read((char*)&first, diffUnitLength);
 			fileB.read((char*)&second, diffUnitLength);
 
+			// change the byte order if necessary
+			if (m_byteOrder == ByteOrder::BigEndian)
+			{
+				SwapIntegerByteOrder((uint8_t*)&first, diffUnitLength);
+				SwapIntegerByteOrder((uint8_t*)&second, diffUnitLength);
+			}
+
 			// create a diff object to hold the info
 			Diff<T> diff(address, first, second);
 
@@ -67,5 +84,6 @@ private:
 	}
 
 	static uint64_t FileLength(std::fstream &file);
+	static void SwapIntegerByteOrder(uint8_t *integer, size_t length);
 };
 

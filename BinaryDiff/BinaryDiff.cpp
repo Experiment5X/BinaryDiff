@@ -14,11 +14,9 @@ int main(int argc, char* argv[])
 	string fileBPath = "C:\\Users\\Adam\\Desktop\\Tiger Woods 2013\\13-TourEvent0 new";
 
 	BinaryDiffer differ(fileAPath, fileBPath);
-	for (auto diff : differ.getByteDiffs())
+	for (auto diff : differ.getUint32Diffs())
 	{
-		int difference = abs(diff.firstValue() - diff.secondValue());
-
-		if (difference == 1)
+		if (diff.absoluteDifference() < 0x100)
 		{
 			cout << "0x" << hex << diff.address() << "\t";
 			cout << "0x" << hex << (int)diff.firstValue() << " -> " << "0x" << hex << (int)diff.secondValue() << endl;
