@@ -15,7 +15,15 @@ int main(int argc, char* argv[])
 
 	BinaryDiffer differ(fileAPath, fileBPath);
 	for (auto diff : differ.getByteDiffs())
-		cout << "0x" << hex << (int)diff.first << " -> " << "0x" << hex << (int)diff.second << endl;
+	{
+		int difference = abs(diff.firstValue() - diff.secondValue());
+
+		if (difference == 1)
+		{
+			cout << "0x" << hex << diff.address() << "\t";
+			cout << "0x" << hex << (int)diff.firstValue() << " -> " << "0x" << hex << (int)diff.secondValue() << endl;
+		}
+	}
 	cin.get();
 	return 0;
 }

@@ -29,5 +29,8 @@
     <ClInclude Include="BinaryDiffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Diff.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
