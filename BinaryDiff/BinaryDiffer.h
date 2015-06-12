@@ -47,6 +47,17 @@ private:
 		std::fstream fileA(m_fileAPath, std::ios_base::in | std::ios_base::binary);
 		std::fstream fileB(m_fileBPath, std::ios_base::in | std::ios_base::binary);
 
+		if (!fileA.is_open())
+		{
+			std::string exceptionMessage = "Could not open file " + m_fileAPath + ".";
+			throw std::exception(exceptionMessage.c_str());
+		}
+		if (!fileB.is_open())
+		{
+			std::string exceptionMessage = "Could not open file " + m_fileBPath + ".";
+			throw std::exception(exceptionMessage.c_str());
+		}
+
 		// get the file lengths
 		uint64_t fileALength = FileLength(fileA);
 		uint64_t fileBLength = FileLength(fileB);
